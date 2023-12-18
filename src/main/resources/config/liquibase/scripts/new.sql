@@ -3,18 +3,19 @@
 
 CREATE TABLE news
 (
-    id          BIGSERIAL,
-    created     TIMESTAMP WITHOUT TIME ZONE,
-    updated     TIMESTAMP WITHOUT TIME ZONE,
-    title       TEXT,
-    description TEXT,
-    image_id    INT8,
-    news_date   TIMESTAMP WITHOUT TIME ZONE,
-    lang        TEXT default 'RUS',
+    id              BIGSERIAL,
+    created         TIMESTAMP WITHOUT TIME ZONE,
+    updated         TIMESTAMP WITHOUT TIME ZONE,
+    title           TEXT,
+    description_eng TEXT,
+    description_rus TEXT,
+    image_id        INT8,
+    news_date       TIMESTAMP WITHOUT TIME ZONE,
+    lang            TEXT default 'RUS',
     CONSTRAINT pk_news PRIMARY KEY (id)
 );
 
-INSERT INTO news (created, updated, title, description, news_date)
+INSERT INTO news (created, updated, title, description_rus, news_date)
 values (now(), now(), 'Разнообразие коллекций HERMES в нашем салоне',
         'Разнообразие коллекций HERMES в нашем салонеРазнообразие коллекций HERMES в нашем салонеРазнообразие коллекций HERMES в нашем салонеРазнообразие коллекций HERMES в нашем салонеРазнообразие коллекций HERMES в нашем салоне',
         '2022-12-17'),
