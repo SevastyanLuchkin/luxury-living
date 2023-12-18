@@ -20,7 +20,7 @@ public class News extends BaseEntity {
 
     private String descriptionRus;
 
-    private String descriptionEng;
+//    private String descriptionEng;
 
     private Long imageId;
 
