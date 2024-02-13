@@ -24,6 +24,8 @@ public class News extends BaseEntity {
 
     private Long imageId;
 
+    private Boolean active = true;
+
     @DateTimeFormat
     private Instant newsDate;
 

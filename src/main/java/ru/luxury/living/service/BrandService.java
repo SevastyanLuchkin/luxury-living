@@ -20,13 +20,13 @@ public class BrandService {
 
     @Transactional
     public Brand update(Long id, Brand request) {
-        Brand brand = brandRepository.findById(id)
+        brandRepository.findById(id)
                 .orElseThrow();
         request.setId(id);
         return brandRepository.save(request);
     }
 
-    public Page<Brand> getAll(Pageable pageable) {
+    public Page<Brand> findAll(Pageable pageable) {
         return brandRepository.findAll(pageable);
     }
 

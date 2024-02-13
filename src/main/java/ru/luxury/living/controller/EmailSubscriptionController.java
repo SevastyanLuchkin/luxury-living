@@ -44,7 +44,7 @@ public class EmailSubscriptionController {
     }
 
     @GetMapping
-    public Page<EmailSubscription> getAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return emailSubscriptionService.getAll(pageable);
+    public Page<EmailSubscription> findAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return emailSubscriptionService.findAll(pageable);
     }
 }

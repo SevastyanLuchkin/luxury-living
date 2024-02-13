@@ -19,10 +19,7 @@ public class NewsService {
 
     public News update(Long id, News request) {
         News news = newsRepository.findById(id).orElseThrow();
-        news.setTitleRu(request.getTitleRu());
-        news.setDescriptionRus(request.getDescriptionRus());
-        news.setImageId(request.getImageId());
-        news.setNewsDate(request.getNewsDate());
+
         return newsRepository.save(news);
     }
 
@@ -35,7 +32,7 @@ public class NewsService {
                 .orElseThrow();
     }
 
-    public Page<News> getAll(Pageable pageable) {
+    public Page<News> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable);
     }
 }

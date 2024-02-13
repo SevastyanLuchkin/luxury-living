@@ -27,5 +27,5 @@ public class FaqItem extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private LangType lang;
 
-    private boolean active = true;
+    private Boolean active = true;
 }

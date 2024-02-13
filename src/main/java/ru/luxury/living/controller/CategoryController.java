@@ -1,14 +1,11 @@
 package ru.luxury.living.controller;
 
-
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,41 +14,40 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.luxury.living.model.Brand;
-import ru.luxury.living.service.BrandService;
+import ru.luxury.living.model.Category;
+import ru.luxury.living.service.CategoryService;
 
 @RestController
-@RequestMapping("brand")
 @RequiredArgsConstructor
-@Tag(name = "Операции с брендами")
-public class BrandController {
+@RequestMapping("category")
+public class CategoryController {
 
-    private final BrandService brandService;
+    private final CategoryService categoryService;
 
     @PostMapping
-    public Brand create(@Validated @RequestBody Brand brand) {
-        return brandService.create(brand);
+    public void create(@RequestBody Category category) {
+        categoryService.create(category);
+    }
+
+    @GetMapping("{id}")
+    public Category findById(@PathVariable Long id) {
+        return categoryService.findById(id);
     }
 
     @PutMapping("{id}")
-    public Brand update(@PathVariable Long id, @Validated @RequestBody Brand brand) {
-        return brandService.update(id, brand);
+    public void update(@PathVariable Long id, @RequestBody Category category) {
+        categoryService.update(id, category);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
-        brandService.delete(id);
-    }
-
-    @GetMapping("{id}")
-    public Brand getById(@PathVariable Long id) {
-        return brandService.getById(id);
+        categoryService.delete(id);
     }
 
     @GetMapping
-    public Page<Brand> findAll(
+    public Page<Category> findAll(
             @ParameterObject @PageableDefault(sort = {"number,created"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        return brandService.findAll(pageable);
+        return categoryService.findAll(pageable);
     }
 }

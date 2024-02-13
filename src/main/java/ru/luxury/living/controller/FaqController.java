@@ -48,7 +48,7 @@ public class FaqController {
     }
 
     @GetMapping
-    public Page<FaqItem> getAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return faqService.getAll(pageable);
+    public Page<FaqItem> findAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return faqService.findAll(pageable);
     }
 }

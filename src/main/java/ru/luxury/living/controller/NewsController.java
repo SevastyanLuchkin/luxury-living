@@ -48,7 +48,7 @@ public class NewsController {
     }
 
     @GetMapping
-    public Page<News> getAll(@ParameterObject @PageableDefault(sort = {"newsDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return newsService.getAll(pageable);
+    public Page<News> findAll(@ParameterObject @PageableDefault(sort = {"newsDate"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return newsService.findAll(pageable);
     }
 }

@@ -45,7 +45,7 @@ public class EmailSubscriptionService {
                 .orElseThrow();
     }
 
-    public Page<EmailSubscription> getAll(Pageable pageable) {
+    public Page<EmailSubscription> findAll(Pageable pageable) {
         return emailSubscriptionRepository.findAll(pageable);
     }
 }

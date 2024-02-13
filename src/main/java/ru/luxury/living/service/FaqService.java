@@ -25,7 +25,7 @@ public class FaqService {
         return faqRepository.save(request);
     }
 
-    public Page<FaqItem> getAll(Pageable pageable) {
+    public Page<FaqItem> findAll(Pageable pageable) {
         return faqRepository.findAll(pageable);
     }
 
