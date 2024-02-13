@@ -17,7 +17,7 @@ import java.util.Map;
 @Entity
 public class Product extends BaseEntity {
 
-    private String articule; //todo артикул по-челочечески
+    private String article;
 
     private int price;
 
