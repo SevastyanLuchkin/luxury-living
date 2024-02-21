@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.luxury.living.model.Brand;
 import ru.luxury.living.repository.BrandRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BrandService {
@@ -37,5 +39,9 @@ public class BrandService {
 
     public void delete(Long id) {
         brandRepository.deleteById(id);
+    }
+
+    public List<Brand> findAllByIds(Iterable<Long> ids) {
+        return brandRepository.findAllById(ids);
     }
 }

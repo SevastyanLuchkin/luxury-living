@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.luxury</groupId>
     <artifactId>living</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>living</name>
     <description>luxury living project</description>
     <properties>
