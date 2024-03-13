@@ -6,7 +6,8 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class Collection extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "collection")
-    private List<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     private Integer number;
 }

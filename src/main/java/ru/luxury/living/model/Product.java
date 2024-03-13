@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 import java.util.HashMap;
@@ -17,13 +18,14 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 public class Product extends BaseEntity {
 
     private String article;
 
     private Integer price;
 
-    private Boolean inStock;
+    private Boolean inStock = true;
 
     private String title;
 

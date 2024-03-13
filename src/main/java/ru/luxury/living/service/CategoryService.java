@@ -2,12 +2,18 @@ package ru.luxury.living.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import ru.luxury.living.model.Category;
 import ru.luxury.living.repository.BrandRepository;
 import ru.luxury.living.repository.CategoryRepository;
 import ru.luxury.living.repository.TypeRepository;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +21,8 @@ public class CategoryService {
 
     public static final Category ALL = new Category()
             .setActive(true)
-            .setTitle("Все");
+            .setTitle("Все")
+            .setNumber(1);
 
     private final BrandRepository brandRepository;
     private final TypeRepository typeRepository;
@@ -40,8 +47,14 @@ public class CategoryService {
     }
 
     public Page<Category> findAll(Pageable pageable) {
-        ALL.setTypes(typeRepository.findAll());
-        ALL.setBrands(brandRepository.findAll());
-        return categoryRepository.findAll(pageable);
+        ALL.setTypes(new HashSet<>(typeRepository.findAll()));
+        ALL.setBrands(new HashSet<>(brandRepository.findAll()));
+        Page<Category> all = categoryRepository.findAll(pageable);
+        if (!CollectionUtils.isEmpty(all.getContent())) {
+            List<Category> categories = new ArrayList<>(all.getContent());
+            categories.add(0, ALL);
+            return new PageImpl<>(categories, pageable, all.getSize() + 1);
+        }
+        return all;
     }
 }

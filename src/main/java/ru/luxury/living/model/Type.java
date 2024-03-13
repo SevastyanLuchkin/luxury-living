@@ -5,12 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Accessors(chain = true)
 public class Type extends BaseEntity {
 
     private String title;
@@ -21,7 +23,7 @@ public class Type extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "type")
-    private List<Product> products;
+    private Set<Product> products;
 
     private Integer number;
 }

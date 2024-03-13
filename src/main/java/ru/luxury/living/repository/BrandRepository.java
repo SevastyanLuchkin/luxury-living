@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
-    Optional<Brand> findByTitle(String baccarat);
+    Optional<Brand> findByTitleIgnoreCase(String title);
 }

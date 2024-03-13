@@ -1,19 +1,24 @@
 --liquibase formatted sql
 --changeset luxury:1.0.4
 
-CREATE TABLE news
+create table news
 (
-    id              BIGSERIAL,
-    created         TIMESTAMP WITHOUT TIME ZONE,
-    updated         TIMESTAMP WITHOUT TIME ZONE,
-    title           TEXT,
-    description_eng TEXT,
-    description_rus TEXT,
-    image_id        INT8,
-    news_date       TIMESTAMP WITHOUT TIME ZONE,
-    lang            TEXT default 'RUS',
-    CONSTRAINT pk_news PRIMARY KEY (id)
+    id              bigserial not null
+        constraint pk_news
+            primary key,
+    created         timestamp,
+    updated         timestamp,
+    title           text,
+    description_eng text,
+    description_rus text,
+    image_id        bigint,
+    news_date       timestamp,
+    lang            text default 'RUS'::text,
+    active          boolean,
+    title_eng       varchar(255),
+    title_ru        varchar(255)
 );
+
 
 INSERT INTO news (created, updated, title, description_rus, news_date)
 values (now(), now(), 'Разнообразие коллекций HERMES в нашем салоне',
