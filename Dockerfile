@@ -1,15 +1,27 @@
-FROM ubuntu:latest AS build
+#FROM ubuntu:latest AS build
+#
+#RUN apt-get update
+#RUN apt-get install openjdk-17-jdk -y
+#COPY . .
+#
+#RUN ./mvnw spring-boot:run
+#
+#FROM openjdk:17-jdk-slim
+#
+#EXPOSE 8080
+#
+#COPY --from=build /target/living-0.0.8-SNAPSHOT.jar app.jar
+#
+#ENTRYPOINT ["java", "-jar", "app.jar"]
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+FROM eclipse-temurin:17-jdk-focal
 
-RUN ./mvnw spring-boot:run
+WORKDIR /app
 
-FROM openjdk:17-jdk-slim
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
 
-EXPOSE 8080
+COPY src ./src
 
-COPY --from=build /target/living-0.0.8-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["./mvnw", "spring-boot:run"]
