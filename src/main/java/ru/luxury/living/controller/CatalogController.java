@@ -53,7 +53,6 @@ public class CatalogController {
 
             Map<String, Brand> brandByName = catalog.stream()
                     .distinct()
-                    .peek(System.out::println)
                     .map(row -> {
                         Brand brand = brandRepository.findByTitleIgnoreCase(row.getBrand())
                                 .orElseGet(() -> new Brand().setTitle(row.getBrand()));
@@ -69,6 +68,7 @@ public class CatalogController {
                         }
                         return brandRepository.save(brand);
                     })
+                    .peek(System.out::println)
                     .collect(Collectors.toMap(Brand::getTitle, Function.identity(), (x1, x2) -> x2));
 
             Map<String, Category> categoryByName = catalog
