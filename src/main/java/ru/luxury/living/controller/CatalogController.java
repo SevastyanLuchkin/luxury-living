@@ -52,7 +52,6 @@ public class CatalogController {
                             .stream().toList();
 
             Map<String, Brand> brandByName = catalog.stream()
-                    .distinct()
                     .map(row -> {
                         Brand brand = brandRepository.findByTitleIgnoreCase(row.getBrand())
                                 .orElseGet(() -> new Brand().setTitle(row.getBrand()));
@@ -68,7 +67,8 @@ public class CatalogController {
                         }
                         return brandRepository.save(brand);
                     })
-                    .peek(System.out::println)
+                    .distinct()
+//                    .peek(System.out::println)
                     .collect(Collectors.toMap(Brand::getTitle, Function.identity(), (x1, x2) -> x2));
 
             Map<String, Category> categoryByName = catalog
@@ -84,7 +84,7 @@ public class CatalogController {
                     .stream()
                     .filter(row -> StringUtils.hasText(row.getType()))
                     .distinct()
-                    .peek(System.out::println)
+//                    .peek(System.out::println)
                     .map(row -> typeRepository.findByTitleIgnoreCase(row.getType())
                             .orElseThrow())
                     .collect(Collectors.toMap(Type::getTitle, Function.identity(), (x1, x2) -> x2));
@@ -104,7 +104,7 @@ public class CatalogController {
                             .setInStock(Objects.equals("+", row.getInStock()))
                     ).forEach(productRepository::save);
 
-            System.out.println("finished");
+            log.info("finished {}", catalog.size());
 
         } catch (Exception e) {
             log.error("Ошибка при попытке чтения excel файла", e);
