@@ -6,14 +6,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import ru.luxury.living.model.Brand;
 import ru.luxury.living.model.Category;
 import ru.luxury.living.repository.BrandRepository;
 import ru.luxury.living.repository.CategoryRepository;
 import ru.luxury.living.repository.TypeRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +51,9 @@ public class CategoryService {
 
     public Page<Category> findAll(Pageable pageable) {
         ALL.setTypes(new HashSet<>(typeRepository.findAll()));
-        ALL.setBrands(new HashSet<>(brandRepository.findAll()));
+        TreeSet<Brand> brands = new TreeSet<>(Comparator.comparing(Brand::getNumber));
+        brands.addAll(brandRepository.findAll());
+        ALL.setBrands(brands);
         Page<Category> all = categoryRepository.findAll(pageable);
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
