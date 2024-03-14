@@ -15,9 +15,9 @@ import ru.luxury.living.repository.TypeRepository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -51,13 +51,13 @@ public class CategoryService {
     }
 
     public Page<Category> findAll(Pageable pageable) {
-        Comparator<Brand> brandComparator = Comparator.comparing(Brand::getNumber);
-        ALL.setTypes(new HashSet<>(typeRepository.findAll()));
-        TreeSet<Brand> brands = brandRepository.findAll().stream()
-                .sorted()
-                .collect(Collectors.toCollection(() -> new TreeSet<>(brandComparator)));
-        ALL.setBrands(brands);
+        List<Brand> all1 = brandRepository.findAll();
+        List<Brand> brands = all1.stream()
+                .sorted(Comparator.comparing(Brand::getNumber, Comparator.nullsLast(Long::compareTo)))
+                .toList();
+        ALL.setBrands(new LinkedHashSet<>(brands));
         Page<Category> all = categoryRepository.findAll(pageable);
+        ALL.setTypes(new HashSet<>(typeRepository.findAll()));
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
             categories.add(0, ALL);
