@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,9 +51,11 @@ public class CategoryService {
     }
 
     public Page<Category> findAll(Pageable pageable) {
+        Comparator<Brand> brandComparator = Comparator.comparing(Brand::getNumber);
         ALL.setTypes(new HashSet<>(typeRepository.findAll()));
-        TreeSet<Brand> brands = new TreeSet<>(Comparator.comparing(Brand::getNumber));
-        brands.addAll(brandRepository.findAll());
+        TreeSet<Brand> brands = brandRepository.findAll().stream()
+                .sorted()
+                .collect(Collectors.toCollection(() -> new TreeSet<>(brandComparator)));
         ALL.setBrands(brands);
         Page<Category> all = categoryRepository.findAll(pageable);
         if (!CollectionUtils.isEmpty(all.getContent())) {
