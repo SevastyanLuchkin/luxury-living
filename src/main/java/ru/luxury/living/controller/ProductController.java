@@ -48,7 +48,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return productService.findAll(pageable);
     }
 
