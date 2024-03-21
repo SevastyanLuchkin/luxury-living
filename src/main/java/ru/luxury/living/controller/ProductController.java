@@ -55,13 +55,13 @@ public class ProductController {
     @GetMapping("search")
     public Page<Product> search(
             @RequestParam(required = false) List<Long> brandIds,
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long categoryIds, //cause of front
             @RequestParam(required = false) List<Long> collectionIds,
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
             @ParameterObject @PageableDefault(sort = {"brand_number, brand_title"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        return productService.search(brandIds, categoryId, collectionIds, typeId, inStock, pageable);
+        return productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
     }
 
     @GetMapping("text-search")
