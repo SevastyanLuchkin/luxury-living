@@ -46,7 +46,7 @@ public class CategoryController {
 
     @GetMapping
     public Page<Category> findAll(
-            @ParameterObject @PageableDefault(sort = {"number,created"}, direction = Sort.Direction.ASC) Pageable pageable
+            @ParameterObject @PageableDefault(sort = {"number,title"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return categoryService.findAll(pageable);
     }

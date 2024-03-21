@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import ru.luxury.living.model.Brand;
@@ -17,7 +18,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +57,7 @@ public class CategoryService {
                 .toList();
         ALL.setBrands(new LinkedHashSet<>(brands));
         Page<Category> all = categoryRepository.findAll(pageable);
-        ALL.setTypes(new HashSet<>(typeRepository.findAll()));
+        ALL.setTypes(new HashSet<>(typeRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))));
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
             categories.add(0, ALL);
