@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import ru.luxury.living.model.Brand;
 import ru.luxury.living.model.Category;
+import ru.luxury.living.model.Type;
 import ru.luxury.living.repository.BrandRepository;
 import ru.luxury.living.repository.CategoryRepository;
 import ru.luxury.living.repository.TypeRepository;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -50,12 +52,15 @@ public class CategoryService {
     }
 
     public Page<Category> findAll(Pageable pageable) {
-        List<Brand> all1 = brandRepository.findAll();
-        List<Brand> brands = all1.stream()
+        List<Brand> brands = brandRepository.findAll().stream()
                 .sorted(Comparator.comparing(Brand::getNumber, Comparator.nullsLast(Long::compareTo)))
                 .toList();
         ALL.setBrands(new LinkedHashSet<>(brands));
         Page<Category> all = categoryRepository.findAll(pageable);
+
+        all.stream().filter(c -> !CollectionUtils.isEmpty(c.getTypes()))
+                .forEach(c -> c.setTypes(getSortedTypes(c)));
+
         ALL.setTypes(new LinkedHashSet<>(typeRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))));
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
@@ -63,5 +68,11 @@ public class CategoryService {
             return new PageImpl<>(categories, pageable, all.getSize() + 1);
         }
         return all;
+    }
+
+    private Set<Type> getSortedTypes(Category c) {
+        List<Type> types = c.getTypes().stream()
+                .sorted(Comparator.comparing(Type::getTitle, Comparator.nullsLast(String::compareTo))).toList();
+        return new LinkedHashSet<>(types);
     }
 }
