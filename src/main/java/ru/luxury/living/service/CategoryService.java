@@ -57,7 +57,7 @@ public class CategoryService {
                 .toList();
         ALL.setBrands(new LinkedHashSet<>(brands));
         Page<Category> all = categoryRepository.findAll(pageable);
-        ALL.setTypes(new HashSet<>(typeRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))));
+        ALL.setTypes(new LinkedHashSet<>(typeRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))));
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
             categories.add(0, ALL);
