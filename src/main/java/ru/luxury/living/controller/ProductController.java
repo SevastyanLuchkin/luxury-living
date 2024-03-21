@@ -59,7 +59,7 @@ public class ProductController {
             @RequestParam(required = false) List<Long> collectionIds,
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
-            @ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable
+            @ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return productService.search(brandIds, categoryId, collectionIds, typeId, inStock, pageable);
     }
