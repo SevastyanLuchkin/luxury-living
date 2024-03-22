@@ -49,7 +49,7 @@ public class ProductService {
             Pageable pageable
     ) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand_number,brand_title"));
-        return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
+        return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, pageRequest);
     }
 
     public Page<Product> textSearch(String text, Pageable pageable) {
