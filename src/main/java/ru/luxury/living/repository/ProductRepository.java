@@ -35,4 +35,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             Boolean inStock,
             Pageable pageable
     );
+
+    @Query("""
+            select p from Product p where lower(p.title) = lower(:name) and lower(p.brand.title) = lower(:brand)
+            """)
+    List<Product> findByTitleIgnoreCaseAndByBrandTitle(String name, String brand);
+
+    List<Product> findByTitleIgnoreCaseAndAndDescriptionIgnoreCase(String title, String description);
 }

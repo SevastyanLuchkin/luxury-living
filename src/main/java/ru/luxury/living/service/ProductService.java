@@ -2,7 +2,9 @@ package ru.luxury.living.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.luxury.living.model.Product;
 import ru.luxury.living.repository.ProductRepository;
@@ -34,7 +36,8 @@ public class ProductService {
     }
 
     public Page<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand_number"));
+        return productRepository.findAll(pageRequest);
     }
 
     public Page<Product> search(

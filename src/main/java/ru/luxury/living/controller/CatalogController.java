@@ -19,13 +19,16 @@ import ru.luxury.living.model.Product;
 import ru.luxury.living.model.Type;
 import ru.luxury.living.repository.BrandRepository;
 import ru.luxury.living.repository.CategoryRepository;
+import ru.luxury.living.repository.CollectionRepository;
 import ru.luxury.living.repository.ProductRepository;
 import ru.luxury.living.repository.TypeRepository;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,7 @@ public class CatalogController {
     private final CategoryRepository categoryRepository;
     private final TypeRepository typeRepository;
     private final ProductRepository productRepository;
+    private final CollectionRepository collectionRepository;
 
     @PostMapping
     @Transactional
@@ -111,8 +115,35 @@ public class CatalogController {
 
     @PostMapping("collections")
     @Transactional
-    public void addCollections(@RequestParam("file") MultipartFile file) {
+    public void addCollections(@RequestParam("file") MultipartFile file) throws IOException {
+        try (InputStream is = file.getInputStream()) {
+            XSSFWorkbook wb = new XSSFWorkbook(is);
 
+            List<CatalogExcel> catalog =
+                    Poiji.fromExcel(wb.getSheetAt(0), CatalogExcel.class)
+                            .stream().toList();
+
+
+            AtomicInteger updated = new AtomicInteger();
+            AtomicInteger empty = new AtomicInteger();
+            AtomicInteger multiply = new AtomicInteger();
+            catalog.forEach(ce -> {
+                List<Product> products = productRepository.findByTitleIgnoreCaseAndAndDescriptionIgnoreCase(ce.getName(), ce.getDescription());
+                if (products.size() == 1) {
+                    Product product = products.get(0).setCollectionTitle(ce.getCollection());
+                    productRepository.save(product);
+                    updated.getAndIncrement();
+                    log.info("product updated {}", product);
+                } else if (products.size() == 0) {
+                    empty.getAndIncrement();
+                    log.info("empty products {} {} {}", ce.getName(), ce.getDescription(), products);
+                } else {
+                    multiply.getAndIncrement();
+                    log.info("multiply products {} {} {}", ce.getName(), ce.getDescription(), products);
+                }
+            });
+            log.info("updated empty multiply {} {} {}", updated.get(), empty.get(), multiply.get());
+        }
     }
 
     private int getPrice(CatalogExcel row) {
