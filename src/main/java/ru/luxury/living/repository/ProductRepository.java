@@ -22,14 +22,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(""" 
             select p from Product p where
             (coalesce(:brandIds) is null or p.brand.id in (:brandIds)) and
-            (:categoryId is null or p.category.id = :categoryId) and
+            (coalesce(:categoryIds) is null or p.category.id in (:categoryId)) and
             (coalesce(:collectionIds) is null or p.collection.id in (:collectionIds)) and
             (:typeId is null or p.type.id = :typeId) and
              p.inStock = :inStock
             """)
     Page<Product> findProducts(
             List<Long> brandIds,
-            Long categoryId,
+            List<Long> categoryIds,
             List<Long> collectionIds,
             Long typeId,
             Boolean inStock,

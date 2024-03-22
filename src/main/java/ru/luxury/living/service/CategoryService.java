@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,16 +53,17 @@ public class CategoryService {
     }
 
     public Page<Category> findAll(Pageable pageable) {
-        List<Brand> brands = brandRepository.findAll().stream()
+        LinkedHashSet<Brand> brands = brandRepository.findAll().stream()
                 .sorted(Comparator.comparing(Brand::getNumber, Comparator.nullsLast(Long::compareTo)))
-                .toList();
-        ALL.setBrands(new LinkedHashSet<>(brands));
-        Page<Category> all = categoryRepository.findAll(pageable);
-
-        all.stream().filter(c -> !CollectionUtils.isEmpty(c.getTypes()))
-                .forEach(c -> c.setTypes(getSortedTypes(c)));
-
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        ALL.setBrands(brands);
         ALL.setTypes(new LinkedHashSet<>(typeRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))));
+
+        Page<Category> all = categoryRepository.findAll(pageable);
+        all.stream()
+                .filter(category -> !CollectionUtils.isEmpty(category.getTypes()))
+                .forEach(category -> category.setTypes(getSortedTypes(category)));
+
         if (!CollectionUtils.isEmpty(all.getContent())) {
             List<Category> categories = new ArrayList<>(all.getContent());
             categories.add(0, ALL);
@@ -71,8 +73,8 @@ public class CategoryService {
     }
 
     private Set<Type> getSortedTypes(Category c) {
-        List<Type> types = c.getTypes().stream()
-                .sorted(Comparator.comparing(Type::getTitle, Comparator.nullsLast(String::compareTo))).toList();
-        return new LinkedHashSet<>(types);
+        return c.getTypes().stream()
+                .sorted(Comparator.comparing(Type::getTitle, Comparator.nullsLast(String::compareTo)))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

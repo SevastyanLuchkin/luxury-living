@@ -28,7 +28,7 @@ public class Category extends BaseEntity {
     private Set<Type> types = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "category")
     private Set<Product> products = new HashSet<>();
 
     @ManyToMany(mappedBy = "category", fetch = FetchType.EAGER)

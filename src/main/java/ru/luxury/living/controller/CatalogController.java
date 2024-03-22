@@ -95,7 +95,7 @@ public class CatalogController {
                             .setTitle(row.getName())
                             .setDescription(row.getDescription())
                             .setType(StringUtils.hasText(row.getType()) ? typeRepository.findByTitleIgnoreCase(row.getType()).orElseThrow() : null)
-                            .setCategory(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow())
+                            .setCategory(List.of(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow()))
                             .setBrand(brandRepository.findByTitleIgnoreCase(row.getBrand()).orElseThrow())
                             .setMaterials(row.getMaterials())
                             .setCountry(row.getCountry())

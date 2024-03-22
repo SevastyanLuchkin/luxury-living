@@ -6,6 +6,7 @@ import io.hypersistence.utils.hibernate.type.array.StringArrayType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -57,8 +59,8 @@ public class Product extends BaseEntity {
     @ManyToOne
     private ru.luxury.living.model.Type type;
 
-    @ManyToOne
-    private Category category;
+    @ManyToMany
+    private List<Category> category;
 
     @ManyToOne
     private Brand brand;
