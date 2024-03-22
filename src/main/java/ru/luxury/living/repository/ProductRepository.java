@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(""" 
             select p from Product p join p.categories cat where
             (coalesce(:brandIds) is null or p.brand.id in (:brandIds)) and
-            (coalesce(:categoryIds) is null or cat.id in (:categoryId)) and
+            (coalesce(:categoryIds) is null or cat.id in (:categoryIds)) and
             (coalesce(:collectionIds) is null or p.collection.id in (:collectionIds)) and
             (:typeId is null or p.type.id = :typeId) and
              p.inStock = :inStock
