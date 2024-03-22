@@ -68,7 +68,6 @@ public class CatalogController {
                         return brandRepository.save(brand);
                     })
                     .distinct()
-//                    .peek(System.out::println)
                     .collect(Collectors.toMap(Brand::getTitle, Function.identity(), (x1, x2) -> x2));
 
             Map<String, Category> categoryByName = catalog
@@ -84,7 +83,6 @@ public class CatalogController {
                     .stream()
                     .filter(row -> StringUtils.hasText(row.getType()))
                     .distinct()
-//                    .peek(System.out::println)
                     .map(row -> typeRepository.findByTitleIgnoreCase(row.getType())
                             .orElseThrow())
                     .collect(Collectors.toMap(Type::getTitle, Function.identity(), (x1, x2) -> x2));
@@ -95,7 +93,7 @@ public class CatalogController {
                             .setTitle(row.getName())
                             .setDescription(row.getDescription())
                             .setType(StringUtils.hasText(row.getType()) ? typeRepository.findByTitleIgnoreCase(row.getType()).orElseThrow() : null)
-                            .setCategory(List.of(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow()))
+                            .setCategories(List.of(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow()))
                             .setBrand(brandRepository.findByTitleIgnoreCase(row.getBrand()).orElseThrow())
                             .setMaterials(row.getMaterials())
                             .setCountry(row.getCountry())
@@ -108,8 +106,13 @@ public class CatalogController {
 
         } catch (Exception e) {
             log.error("Ошибка при попытке чтения excel файла", e);
-//            throw e;
         }
+    }
+
+    @PostMapping("collections")
+    @Transactional
+    public void addCollections(@RequestParam("file") MultipartFile file) {
+
     }
 
     private int getPrice(CatalogExcel row) {

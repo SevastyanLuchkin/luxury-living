@@ -20,9 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByDescriptionLike(String text, Pageable pageable);
 
     @Query(""" 
-            select p from Product p where
+            select p from Product p join p.categories cat where
             (coalesce(:brandIds) is null or p.brand.id in (:brandIds)) and
-            (coalesce(:categoryIds) is null or p.category.id in (:categoryId)) and
+            (coalesce(:categoryIds) is null or cat.id in (:categoryId)) and
             (coalesce(:collectionIds) is null or p.collection.id in (:collectionIds)) and
             (:typeId is null or p.type.id = :typeId) and
              p.inStock = :inStock
