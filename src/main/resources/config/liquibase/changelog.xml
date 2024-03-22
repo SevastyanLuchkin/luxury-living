@@ -8,4 +8,5 @@
     <include file="config/liquibase/scripts/new.sql"/>
     <include file="config/liquibase/scripts/pictures.sql"/>
     <include file="config/liquibase/scripts/products.sql"/>
+    <include file="config/liquibase/scripts/order.sql"/>
 </databaseChangeLog>

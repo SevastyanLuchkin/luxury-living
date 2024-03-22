@@ -36,7 +36,7 @@ public class ProductService {
     }
 
     public Page<Product> findAll(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand_number"));
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand_number,brand_title"));
         return productRepository.findAll(pageRequest);
     }
 
@@ -48,6 +48,7 @@ public class ProductService {
             Boolean inStock,
             Pageable pageable
     ) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand_number,brand_title"));
         return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
     }
 
