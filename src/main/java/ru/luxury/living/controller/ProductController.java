@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.luxury.living.model.Product;
 import ru.luxury.living.service.ProductService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -50,7 +52,18 @@ public class ProductController {
     @GetMapping
     public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Product> all = productService.findAll(pageable);
-        all.getContent().forEach(p -> p.setCategory(p.getCategories().stream().findFirst().orElse(null)));
+        all.getContent().forEach(
+                product -> {
+                    product.setCategory(product.getCategories().stream().findFirst().orElse(null));
+                    if (product.getImageIds() == null || product.getImageIds().length == 0) {
+                        product.setImageIds(new Long[]{product.getImageId()});
+                    } else {
+                        List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
+                        images.set(0, product.getImageId());
+                        product.setImageIds(images.toArray(new Long[0]));
+                    }
+                }
+        );
         return all;
     }
 
