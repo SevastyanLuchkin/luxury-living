@@ -50,7 +50,7 @@ public class ProductController {
     @GetMapping
     public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Product> all = productService.findAll(pageable);
-        all.getContent().forEach(p -> p.setCategory(p.getCategories().get(0)));
+        all.getContent().forEach(p -> p.setCategory(p.getCategories().stream().findFirst().orElse(null)));
         return all;
     }
 

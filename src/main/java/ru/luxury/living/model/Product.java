@@ -19,8 +19,8 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Type;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -70,7 +70,7 @@ public class Product extends BaseEntity {
             name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories;
+    private Set<Category> categories;
 
     @Transient
     private Category category;

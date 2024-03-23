@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -97,7 +98,7 @@ public class CatalogController {
                             .setTitle(row.getName())
                             .setDescription(row.getDescription())
                             .setType(StringUtils.hasText(row.getType()) ? typeRepository.findByTitleIgnoreCase(row.getType()).orElseThrow() : null)
-                            .setCategories(List.of(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow()))
+                            .setCategories(Set.of(categoryRepository.findByTitleIgnoreCase(row.getCategory()).orElseThrow()))
                             .setBrand(brandRepository.findByTitleIgnoreCase(row.getBrand()).orElseThrow())
                             .setMaterials(row.getMaterials())
                             .setCountry(row.getCountry())
