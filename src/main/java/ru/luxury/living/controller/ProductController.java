@@ -36,7 +36,9 @@ public class ProductController {
 
     @GetMapping("{id}")
     public Product getById(@PathVariable Long id) {
-        return productService.getById(id);
+        Product product = productService.getById(id);
+        enrichImageIds(product);
+        return product;
     }
 
     @DeleteMapping("{id}")
