@@ -52,19 +52,19 @@ public class ProductController {
     @GetMapping
     public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Product> all = productService.findAll(pageable);
-        all.getContent().forEach(
-                product -> {
-                    product.setCategory(product.getCategories().stream().findFirst().orElse(null));
-                    if (product.getImageIds() == null || product.getImageIds().length == 0) {
-                        product.setImageIds(new Long[]{product.getImageId()});
-                    } else {
-                        List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
-                        images.set(0, product.getImageId());
-                        product.setImageIds(images.toArray(new Long[0]));
-                    }
-                }
-        );
+        all.getContent().forEach(this::enrichImageIds);
         return all;
+    }
+
+    private void enrichImageIds(Product product) {
+        product.setCategory(product.getCategories().stream().findFirst().orElse(null));
+        if (product.getImageIds() == null || product.getImageIds().length == 0) {
+            product.setImageIds(new Long[]{product.getImageId()});
+        } else {
+            List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
+            images.set(0, product.getImageId());
+            product.setImageIds(images.toArray(new Long[0]));
+        }
     }
 
     @GetMapping("search")
@@ -76,7 +76,9 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
             @ParameterObject @PageableDefault(sort = {"brand_number,brand_title"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        return productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
+        Page<Product> products = productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
+        products.getContent().forEach(this::enrichImageIds);
+        return products;
     }
 
     @GetMapping("text-search")
