@@ -60,12 +60,14 @@ public class ProductController {
 
     private void enrichImageIds(Product product) {
         product.setCategory(product.getCategories().stream().findFirst().orElse(null));
-        if (product.getImageIds() == null || product.getImageIds().length == 0) {
-            product.setImageIds(new Long[]{product.getImageId()});
-        } else {
-            List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
-            images.set(0, product.getImageId());
-            product.setImageIds(images.toArray(new Long[0]));
+        if (product.getImageId() != null) {
+            if (product.getImageIds() == null || product.getImageIds().length == 0) {
+                product.setImageIds(new Long[]{product.getImageId()});
+            } else {
+                List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
+                images.set(0, product.getImageId());
+                product.setImageIds(images.toArray(new Long[0]));
+            }
         }
     }
 
