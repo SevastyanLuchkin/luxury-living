@@ -65,7 +65,7 @@ public class ProductController {
                 product.setImageIds(new Long[]{product.getImageId()});
             } else {
                 List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
-                images.set(0, product.getImageId());
+                images.add(0, product.getImageId());
                 product.setImageIds(images.toArray(new Long[0]));
             }
         }
