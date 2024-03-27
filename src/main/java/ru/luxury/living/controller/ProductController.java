@@ -63,7 +63,7 @@ public class ProductController {
         if (product.getImageId() != null) {
             if (product.getImageIds() == null || product.getImageIds().length == 0) {
                 product.setImageIds(new Long[]{product.getImageId()});
-            } else {
+            } else if (Arrays.stream(product.getImageIds()).noneMatch(i -> product.getImageId().equals(i))) {
                 List<Long> images = new ArrayList<>(Arrays.asList(product.getImageIds()));
                 images.add(0, product.getImageId());
                 product.setImageIds(images.toArray(new Long[0]));
