@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     @PutMapping("{orderId}")
-    public ResponseEntity<?> update(@PathVariable long orderId, OrderRequest request) {
+    public ResponseEntity<?> update(@PathVariable long orderId, @RequestBody OrderRequest request) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         if (request.getHandled() != null) {
             order.setHandled(request.getHandled());
