@@ -68,7 +68,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public Page<OrderResponse> findAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
+    public Page<OrderResponse> findAll(@ParameterObject @PageableDefault(sort = {"handled,created"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Order> ordersPage = orderRepository.findAll(pageable);
         List<OrderResponse> orders = ordersPage.getContent().stream()
                 .map(this::mapOrder)
