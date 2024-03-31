@@ -15,7 +15,7 @@ public class Order extends BaseEntity {
 
     private Long productId;
 
-    private Boolean handled;
+    private Boolean handled = false;
 
     private String phone;
 
