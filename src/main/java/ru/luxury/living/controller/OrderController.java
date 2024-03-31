@@ -56,9 +56,6 @@ public class OrderController {
 
     @PutMapping("{orderId}")
     public ResponseEntity<?> update(@PathVariable long orderId, OrderRequest request) {
-        if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
-            return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
-        }
         Order order = orderRepository.findById(orderId).orElseThrow();
         if (request.getHandled() != null) {
             order.setHandled(request.getHandled());
