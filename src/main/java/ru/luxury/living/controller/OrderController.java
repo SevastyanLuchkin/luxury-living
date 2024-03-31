@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -68,8 +69,9 @@ public class OrderController {
     }
 
     @GetMapping
-    public Page<OrderResponse> findAll(@ParameterObject @PageableDefault(sort = {"handled,created"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Order> ordersPage = orderRepository.findAll(pageable);
+    public Page<OrderResponse> findAll(@ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "handled").and(Sort.by(Sort.Direction.ASC, "created")));
+        Page<Order> ordersPage = orderRepository.findAll(pageRequest);
         List<OrderResponse> orders = ordersPage.getContent().stream()
                 .map(this::mapOrder)
                 .toList();
@@ -97,6 +99,7 @@ public class OrderController {
                 .setProduct(productResponse)
                 .setHandled(order.getHandled())
                 .setEmail(order.getEmail())
-                .setPhone(order.getPhone());
+                .setPhone(order.getPhone())
+                .setCreated(order.getCreated());
     }
 }
