@@ -93,6 +93,7 @@ public class OrderController {
                 .setMaterials(product.getMaterials())
                 .setVolume(product.getVolume());
         return new OrderResponse()
+                .setId(order.getId())
                 .setProduct(productResponse)
                 .setHandled(order.getHandled())
                 .setEmail(order.getEmail())

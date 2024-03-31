@@ -7,6 +7,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class OrderResponse {
 
+    private long id;
+
     private ProductResponse product;
 
     private Boolean handled;
