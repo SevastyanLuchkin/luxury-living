@@ -41,6 +41,9 @@ public class OrderController {
         if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
             return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
         }
+        if (request.getProductId() == null) {
+            return ResponseEntity.badRequest().body("Не задан товар");
+        }
         productRepository.findById(request.getProductId()).orElseThrow();
         orderRepository.save(
                 new Order()
@@ -56,10 +59,20 @@ public class OrderController {
         if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
             return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
         }
-        Order order = orderRepository.findById(orderId).orElseThrow()
-                .setHandled(request.getHandled())
-                .setEmail(request.getEmail())
-                .setPhone(request.getPhone());
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        if (request.getHandled() != null) {
+            order.setHandled(request.getHandled());
+        }
+        if (request.getPhone() != null) {
+            order.setPhone(request.getPhone());
+        }
+        if (request.getEmail() != null) {
+            order.setEmail(request.getEmail());
+        }
+        if (request.getProductId() != null) {
+            order.setProductId(request.getProductId());
+        }
+
         return ResponseEntity.ok(orderRepository.save(order));
     }
 
