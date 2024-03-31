@@ -1,7 +1,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
-<!--    <include file="config/liquibase/scripts/brands.sql"/>-->
+    <!--    <include file="config/liquibase/scripts/brands.sql"/>-->
     <include file="config/liquibase/scripts/category.sql"/>
     <include file="config/liquibase/scripts/email.sql"/>
     <include file="config/liquibase/scripts/faq.sql"/>
@@ -9,4 +9,5 @@
     <include file="config/liquibase/scripts/pictures.sql"/>
     <include file="config/liquibase/scripts/products.sql"/>
     <include file="config/liquibase/scripts/order.sql"/>
+    <include file="config/liquibase/scripts/alter_products.sql"/>
 </databaseChangeLog>

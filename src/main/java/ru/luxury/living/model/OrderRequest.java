@@ -10,4 +10,6 @@ public class OrderRequest {
     private String phone;
 
     private String email;
+
+    private Boolean handled;
 }

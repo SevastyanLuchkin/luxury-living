@@ -59,7 +59,6 @@ public class ProductController {
     }
 
     private void enrichImageIds(Product product) {
-        product.setCategory(product.getCategories().stream().findFirst().orElse(null));
         if (product.getImageId() != null) {
             if (product.getImageIds() == null || product.getImageIds().length == 0) {
                 product.setImageIds(new Long[]{product.getImageId()});
