@@ -52,7 +52,9 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> findAll(@ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable) {
+    public Page<Product> findAll(
+            @ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable
+    ) {
         Page<Product> all = productService.findAll(pageable);
         all.getContent().forEach(this::enrichImageIds);
         return all;
@@ -77,9 +79,10 @@ public class ProductController {
             @RequestParam(required = false) List<Long> collectionIds,
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
+            @RequestParam(required = false) Boolean admin,
             @ParameterObject @PageableDefault(sort = {"brand_number,brand_title"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        Page<Product> products = productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, pageable);
+        Page<Product> products = productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, admin, pageable);
         products.getContent().forEach(this::enrichImageIds);
         return products;
     }
@@ -87,8 +90,9 @@ public class ProductController {
     @GetMapping("text-search")
     public Page<Product> textSearch(
             @RequestParam String text,
+            @RequestParam(required = false) Boolean admin,
             @ParameterObject @PageableDefault(sort = {"created"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return productService.textSearch(text, pageable);
+        return productService.textSearch(text, admin, pageable);
     }
 }

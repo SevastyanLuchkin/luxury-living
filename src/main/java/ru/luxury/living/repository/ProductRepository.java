@@ -13,8 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAll(Specification<Product> specification, Pageable pageable);
 
-    @Query("select p from Product p where lower(p.title) like lower(concat('%', :text,'%'))")
-    Page<Product> findAllByTitleLike(String text, Pageable pageable);
+    @Query("select p from Product p where lower(p.title) like lower(concat('%', :text,'%')) and p.active in (:states)")
+    Page<Product> findAllByTitleLike(String text, List<Boolean> states, Pageable pageable);
 
     @Query("select p from Product p where lower(p.description) like lower(concat('%', :text,'%'))")
     Page<Product> findAllByDescriptionLike(String text, Pageable pageable);
@@ -24,8 +24,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             (coalesce(:brandIds) is null or p.brand.id in (:brandIds)) and
             (coalesce(:categoryIds) is null or cat.id in (:categoryIds)) and
             (coalesce(:collectionIds) is null or p.collection.id in (:collectionIds)) and
-            (:typeId is null or p.type.id = :typeId) and
-             p.inStock = :inStock
+            (:typeId is null or p.type.id = :typeId) and 
+             p.inStock = :inStock and 
+             p.active in (:states)
             """)
     Page<Product> findProducts(
             List<Long> brandIds,
@@ -33,6 +34,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             List<Long> collectionIds,
             Long typeId,
             Boolean inStock,
+            List<Boolean> states,
             Pageable pageable
     );
 

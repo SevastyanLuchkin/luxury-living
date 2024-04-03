@@ -15,6 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
 
+    public static final List<Boolean> ALL = List.of(true, false);
+    public static final List<Boolean> ACTIVE = List.of(true);
     private final ProductRepository productRepository;
 
     public Product create(Product product) {
@@ -46,14 +48,15 @@ public class ProductService {
             List<Long> collectionIds,
             Long typeId,
             Boolean inStock,
+            Boolean admin,
             Pageable pageable
     ) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand.number").and(Sort.by(Sort.Direction.ASC, "title")));
-        return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, pageRequest);
+        return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, Boolean.TRUE.equals(admin) ? ALL : ACTIVE, pageRequest);
     }
 
-    public Page<Product> textSearch(String text, Pageable pageable) {
-        Page<Product> products = productRepository.findAllByTitleLike(text, pageable);
+    public Page<Product> textSearch(String text, Boolean admin, Pageable pageable) {
+        Page<Product> products = productRepository.findAllByTitleLike(text, Boolean.TRUE.equals(admin) ? ALL : ACTIVE, pageable);
         return !products.isEmpty() ? products : productRepository.findAllByDescriptionLike(text, pageable);
     }
 }
