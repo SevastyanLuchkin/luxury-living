@@ -78,4 +78,6 @@ public class Product extends BaseEntity {
     private Collection collection;
 
     private String collectionTitle;
+
+    private Boolean liked;
 }

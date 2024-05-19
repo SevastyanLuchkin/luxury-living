@@ -10,4 +10,6 @@
     <include file="config/liquibase/scripts/products.sql"/>
     <include file="config/liquibase/scripts/order.sql"/>
     <include file="config/liquibase/scripts/alter_products.sql"/>
+    <include file="config/liquibase/scripts/alter_products2.sql"/>
+    <include file="config/liquibase/scripts/alter_brands.sql"/>
 </databaseChangeLog>

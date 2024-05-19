@@ -30,6 +30,10 @@ public class Brand extends BaseEntity {
 
     private Long number;
 
+    private String country;
+
+    private Long logoId;
+
     @JsonIgnore
     @ManyToMany
     private Set<Category> category = new HashSet<>();

@@ -95,4 +95,14 @@ public class ProductController {
     ) {
         return productService.textSearch(text, admin, pageable);
     }
+
+    @GetMapping("liked")
+    public Page<Product> liked(@ParameterObject Pageable pageable) {
+        return productService.getLiked(pageable);
+    }
+
+    @PutMapping("{productId}/set-liked")
+    public void setLiked(@PathVariable Long productId, @RequestParam Boolean liked) {
+        productService.setLiked(productId, liked);
+    }
 }

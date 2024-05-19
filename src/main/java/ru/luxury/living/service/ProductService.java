@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.luxury.living.model.Product;
 import ru.luxury.living.repository.ProductRepository;
 
@@ -58,5 +59,14 @@ public class ProductService {
     public Page<Product> textSearch(String text, Boolean admin, Pageable pageable) {
         Page<Product> products = productRepository.findAllByTitleLike(text, Boolean.TRUE.equals(admin) ? ALL : ACTIVE, pageable);
         return !products.isEmpty() ? products : productRepository.findAllByDescriptionLike(text, pageable);
+    }
+
+    public Page<Product> getLiked(Pageable pageable) {
+        return productRepository.findLiked(pageable);
+    }
+
+    @Transactional
+    public void setLiked(Long productId, Boolean liked) {
+        productRepository.findById(productId).orElseThrow().setLiked(liked);
     }
 }

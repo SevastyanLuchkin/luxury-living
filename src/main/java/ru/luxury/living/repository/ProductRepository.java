@@ -44,4 +44,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByTitleIgnoreCaseAndByBrandTitle(String name, String brand);
 
     List<Product> findByTitleIgnoreCaseAndAndDescriptionIgnoreCase(String title, String description);
+
+    @Query("select p from Product p where p.liked = true")
+    Page<Product> findLiked(Pageable pageable);
 }
