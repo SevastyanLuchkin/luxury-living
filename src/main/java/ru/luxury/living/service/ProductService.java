@@ -39,7 +39,7 @@ public class ProductService {
     }
 
     public Page<Product> findAll(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand.number").and(Sort.by(Sort.Direction.ASC, "title")));
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand.number"));
         return productRepository.findAll(pageRequest);
     }
 
@@ -52,7 +52,7 @@ public class ProductService {
             Boolean admin,
             Pageable pageable
     ) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand.number").and(Sort.by(Sort.Direction.ASC, "title")));
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.ASC, "brand.number"));
         return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, Boolean.TRUE.equals(admin) ? ALL : ACTIVE, pageRequest);
     }
 
