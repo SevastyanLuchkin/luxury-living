@@ -53,7 +53,7 @@ public class ProductController {
 
     @GetMapping
     public Page<Product> findAll(
-            @ParameterObject @PageableDefault(sort = {"brand_number"}, direction = Sort.Direction.ASC) Pageable pageable
+            @ParameterObject @PageableDefault(sort = {"brand_number,title"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         Page<Product> all = productService.findAll(pageable);
         all.getContent().forEach(this::enrichImageIds);
@@ -80,7 +80,7 @@ public class ProductController {
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
             @RequestParam(required = false) Boolean admin,
-            @ParameterObject @PageableDefault(sort = {"brand_number,brand_title"}, direction = Sort.Direction.ASC) Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         Page<Product> products = productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, admin, pageable);
         products.getContent().forEach(this::enrichImageIds);

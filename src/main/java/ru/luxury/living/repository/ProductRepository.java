@@ -24,8 +24,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             (coalesce(:brandIds) is null or p.brand.id in (:brandIds)) and
             (coalesce(:categoryIds) is null or cat.id in (:categoryIds)) and
             (coalesce(:collectionIds) is null or p.collection.id in (:collectionIds)) and
-            (:typeId is null or p.type.id = :typeId) and 
-             p.inStock = :inStock and 
+            (:typeId is null or p.type.id = :typeId) and
+             p.inStock = :inStock and
              p.active in (:states)
             """)
     Page<Product> findProducts(
