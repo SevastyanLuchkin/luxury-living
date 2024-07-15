@@ -82,4 +82,6 @@ public class Product extends BaseEntity {
     private Boolean liked;
 
     private Integer brandNumber;
+
+    private Integer typeNumber;
 }
