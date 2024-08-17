@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.luxury.living.model.Order;
 import ru.luxury.living.model.OrderRequest;
@@ -37,10 +38,21 @@ public class OrderController {
     private final ProductRepository productRepository;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody OrderRequest request) {
+    public ResponseEntity<String> create(@RequestBody OrderRequest request, @RequestParam(required = false) Boolean curtains) {
         if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
             return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
         }
+
+        if (Boolean.TRUE.equals(curtains)) {
+            orderRepository.save(
+                    new Order()
+                            .setCurtains(true)
+                            .setEmail(request.getEmail())
+                            .setPhone(request.getPhone())
+            );
+            return ResponseEntity.ok("OK");
+        }
+
         if (request.getProductId() == null) {
             return ResponseEntity.badRequest().body("Не задан товар");
         }
@@ -48,20 +60,6 @@ public class OrderController {
         orderRepository.save(
                 new Order()
                         .setProductId(request.getProductId())
-                        .setEmail(request.getEmail())
-                        .setPhone(request.getPhone())
-        );
-        return ResponseEntity.ok("OK");
-    }
-
-    @PostMapping("curtains")
-    public ResponseEntity<String> createCurtainsOrder(@RequestBody OrderRequest request) {
-        if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
-            return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
-        }
-        orderRepository.save(
-                new Order()
-                        .setCurtains(true)
                         .setEmail(request.getEmail())
                         .setPhone(request.getPhone())
         );
