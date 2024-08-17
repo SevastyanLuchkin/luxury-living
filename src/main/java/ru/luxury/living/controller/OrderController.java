@@ -54,6 +54,20 @@ public class OrderController {
         return ResponseEntity.ok("OK");
     }
 
+    @PostMapping("curtains")
+    public ResponseEntity<String> createCurtainsOrder(@RequestBody OrderRequest request) {
+        if (!StringUtils.hasText(request.getEmail()) && !StringUtils.hasText(request.getPhone())) {
+            return ResponseEntity.badRequest().body("Телефон либо электронная почта должны быть заданы");
+        }
+        orderRepository.save(
+                new Order()
+                        .setCurtains(true)
+                        .setEmail(request.getEmail())
+                        .setPhone(request.getPhone())
+        );
+        return ResponseEntity.ok("OK");
+    }
+
     @PutMapping("{orderId}")
     public ResponseEntity<?> update(@PathVariable long orderId, @RequestBody OrderRequest request) {
         Order order = orderRepository.findById(orderId).orElseThrow();

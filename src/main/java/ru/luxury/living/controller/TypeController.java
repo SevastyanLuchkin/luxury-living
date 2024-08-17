@@ -34,10 +34,10 @@ public class TypeController {
         return typeService.getById(id);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        typeService.delete(id);
-    }
+//    @DeleteMapping("{id}")
+//    public void delete(@PathVariable Long id) {
+//        typeService.delete(id);
+//    }
 
     @PutMapping("{id}")
     public Type update(@PathVariable Long id, @RequestBody Type type) {

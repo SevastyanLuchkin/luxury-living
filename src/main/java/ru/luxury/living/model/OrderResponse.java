@@ -20,4 +20,6 @@ public class OrderResponse {
     private String email;
 
     private Instant created;
+
+    private Boolean curtains;
 }

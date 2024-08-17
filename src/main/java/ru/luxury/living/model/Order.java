@@ -20,4 +20,6 @@ public class Order extends BaseEntity {
     private String phone;
 
     private String email;
+
+    private Boolean curtains;
 }
