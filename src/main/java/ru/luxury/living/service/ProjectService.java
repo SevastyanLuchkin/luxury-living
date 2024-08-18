@@ -15,7 +15,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     public List<Project> findAll() {
-        return projectRepository.findAll();
+        return projectRepository.findAllSortByNumber();
     }
 
     public Project create(ProjectRequest request) {

@@ -25,4 +25,6 @@ public class Project extends BaseEntity {
     @Type(LongArrayType.class)
     @Column(columnDefinition = "int8[]")
     private Long[] imageIds;
+
+    private Integer number;
 }
