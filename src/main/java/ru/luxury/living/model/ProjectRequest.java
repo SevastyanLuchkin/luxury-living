@@ -12,4 +12,6 @@ public class ProjectRequest {
     private Long imageId;
 
     private Long[] imageIds;
+
+    private Integer number;
 }

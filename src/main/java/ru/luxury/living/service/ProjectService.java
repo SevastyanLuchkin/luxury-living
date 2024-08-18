@@ -23,7 +23,8 @@ public class ProjectService {
                 .setTitle(request.getTitle())
                 .setDescription(request.getDescription())
                 .setImageId(request.getImageId())
-                .setImageIds(request.getImageIds());
+                .setImageIds(request.getImageIds())
+                .setNumber(request.getNumber());
 
         return projectRepository.save(project);
     }
@@ -45,6 +46,10 @@ public class ProjectService {
 
         if (request.getImageIds() != null) {
             project.setImageIds(request.getImageIds());
+        }
+
+        if (request.getNumber() != null) {
+            project.setNumber(request.getNumber());
         }
 
         return projectRepository.save(project);
