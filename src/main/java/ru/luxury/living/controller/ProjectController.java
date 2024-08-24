@@ -27,7 +27,7 @@ public class ProjectController {
 
     @GetMapping
     public Page<Project> getAll(
-            @ParameterObject @PageableDefault(sort = {"number,created"}, direction = Sort.Direction.ASC) Pageable pageable
+            @ParameterObject @PageableDefault(sort = {"number"}, direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return projectService.findAll(pageable);
     }
