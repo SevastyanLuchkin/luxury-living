@@ -108,8 +108,10 @@ public class OrderController {
                 .setEmail(order.getEmail())
                 .setPhone(order.getPhone())
                 .setCreated(order.getCreated());
-        productRepository.findById(order.getProductId())
-                .ifPresent(product -> orderResponse.setProduct(mapProduct(product)));
+        if (order.getProductId() != null) {
+            productRepository.findById(order.getProductId())
+                    .ifPresent(product -> orderResponse.setProduct(mapProduct(product)));
+        }
         return orderResponse;
     }
 
