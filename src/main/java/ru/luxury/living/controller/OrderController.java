@@ -102,8 +102,19 @@ public class OrderController {
     }
 
     private OrderResponse mapOrder(Order order) {
-        Product product = productRepository.findById(order.getProductId()).orElseThrow();
-        ProductResponse productResponse = new ProductResponse()
+        OrderResponse orderResponse = new OrderResponse()
+                .setId(order.getId())
+                .setHandled(order.getHandled())
+                .setEmail(order.getEmail())
+                .setPhone(order.getPhone())
+                .setCreated(order.getCreated());
+        productRepository.findById(order.getProductId())
+                .ifPresent(product -> orderResponse.setProduct(mapProduct(product)));
+        return orderResponse;
+    }
+
+    private ProductResponse mapProduct(Product product) {
+        return new ProductResponse()
                 .setId(product.getId())
                 .setArticle(product.getArticle())
                 .setPrice(product.getPrice())
@@ -116,12 +127,5 @@ public class OrderController {
                 .setCountry(product.getCountry())
                 .setMaterials(product.getMaterials())
                 .setVolume(product.getVolume());
-        return new OrderResponse()
-                .setId(order.getId())
-                .setProduct(productResponse)
-                .setHandled(order.getHandled())
-                .setEmail(order.getEmail())
-                .setPhone(order.getPhone())
-                .setCreated(order.getCreated());
     }
 }
