@@ -1,6 +1,11 @@
 package ru.luxury.living.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +18,6 @@ import ru.luxury.living.model.Project;
 import ru.luxury.living.model.ProjectRequest;
 import ru.luxury.living.service.ProjectService;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("projects")
@@ -23,8 +26,10 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
-    public List<Project> getAll() {
-        return projectService.findAll();
+    public Page<Project> getAll(
+            @ParameterObject @PageableDefault(sort = {"number,created"}, direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        return projectService.findAll(pageable);
     }
 
     @PostMapping

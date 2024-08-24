@@ -1,12 +1,12 @@
 package ru.luxury.living.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.luxury.living.model.Project;
 import ru.luxury.living.model.ProjectRequest;
 import ru.luxury.living.repository.ProjectRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +14,8 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
 
-    public List<Project> findAll() {
-        return projectRepository.findAllSortByNumber();
+    public Page<Project> findAll(Pageable pageable) {
+        return projectRepository.findAll(pageable);
     }
 
     public Project create(ProjectRequest request) {
