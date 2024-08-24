@@ -54,4 +54,8 @@ public class ProjectService {
 
         return projectRepository.save(project);
     }
+
+    public void delete(Long projectId) {
+        projectRepository.deleteById(projectId);
+    }
 }

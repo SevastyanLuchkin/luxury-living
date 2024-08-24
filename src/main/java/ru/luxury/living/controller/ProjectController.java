@@ -1,6 +1,7 @@
 package ru.luxury.living.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,5 +35,10 @@ public class ProjectController {
     @PutMapping("{projectId}")
     public Project update(@PathVariable Long projectId, @RequestBody ProjectRequest request) {
         return projectService.update(projectId, request);
+    }
+
+    @DeleteMapping("{projectId}")
+    public void delete(@PathVariable Long projectId) {
+        projectService.delete(projectId);
     }
 }
