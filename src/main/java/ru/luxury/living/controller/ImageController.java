@@ -2,7 +2,10 @@ package ru.luxury.living.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +28,12 @@ public class ImageController {
         return imageService.saveImage(file);
     }
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public byte[] getImage(@PathVariable Long id) {
-        return imageService.getImage(id);
+    @GetMapping(value = "{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        byte[] image = imageService.getImage(id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Cache-Control", "public,max-age=360000");
+        return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(image);
     }
 }
 
