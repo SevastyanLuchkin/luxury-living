@@ -32,7 +32,7 @@ public class ImageController {
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         byte[] image = imageService.getImage(id);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Cache-Control", "public,max-age=360000");
+        httpHeaders.set("Cache-Control", "public,max-age=31536000");
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(image);
     }
 }
