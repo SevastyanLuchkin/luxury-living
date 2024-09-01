@@ -19,13 +19,14 @@ public class EmailSubscriptionService {
     private final EmailProperties emailProperties;
 
     public EmailSubscription create(EmailSubscription email) {
+        EmailSubscription emailSubscription = emailSubscriptionRepository.save(email);
         try {
             emailClient.subscribe(emailProperties.getKey(), email.getEmail());
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new RuntimeException("Не удалось подписаться");
         }
-        return emailSubscriptionRepository.save(email);
+        return emailSubscription;
     }
 
     @Transactional
