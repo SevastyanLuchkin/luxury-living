@@ -1,14 +1,18 @@
 package ru.luxury.living.model;
 
+import io.hypersistence.utils.hibernate.type.array.LongArrayType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,7 +29,9 @@ public class News extends BaseEntity {
 
     private Long imageId;
 
-    private Long imageIds;
+    @Type(LongArrayType.class)
+    @Column(columnDefinition = "int8[]")
+    private Long[] imageIds;
 
     @URL
     private String videoUrl;
