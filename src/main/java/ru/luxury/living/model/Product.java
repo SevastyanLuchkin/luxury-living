@@ -84,4 +84,6 @@ public class Product extends BaseEntity {
     private Integer brandNumber;
 
     private Integer typeNumber;
+
+    private Integer number;
 }
