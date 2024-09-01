@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.net.URL;
 import java.time.Instant;
 
 @Getter
@@ -23,6 +24,10 @@ public class News extends BaseEntity {
     private String descriptionEng;
 
     private Long imageId;
+
+    private Long imageIds;
+
+    private URL videoUrl;
 
     private Boolean active = true;
 
