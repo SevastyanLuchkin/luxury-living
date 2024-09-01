@@ -5,9 +5,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.net.URL;
 import java.time.Instant;
 
 @Getter
@@ -27,7 +27,8 @@ public class News extends BaseEntity {
 
     private Long imageIds;
 
-    private URL videoUrl;
+    @URL
+    private String videoUrl;
 
     private Boolean active = true;
 
