@@ -33,8 +33,9 @@ public class News extends BaseEntity {
     @Column(columnDefinition = "int8[]")
     private Long[] imageIds;
 
-    @URL
-    private String videoUrl;
+    @Type(LongArrayType.class)
+    @Column(columnDefinition = "text[]")
+    private String videoUrls;
 
     private Boolean active = true;
 
