@@ -80,7 +80,7 @@ public class ProductController {
             @RequestParam(required = false) Long typeId,
             @RequestParam(required = false, defaultValue = "true") Boolean inStock,
             @RequestParam(required = false) Boolean admin,
-            @ParameterObject Pageable pageable
+            @ParameterObject @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<Product> products = productService.search(brandIds, categoryIds, collectionIds, typeId, inStock, admin, pageable);
         products.getContent().forEach(this::enrichImageIds);
