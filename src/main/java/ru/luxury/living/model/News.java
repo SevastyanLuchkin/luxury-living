@@ -5,14 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
@@ -33,8 +30,6 @@ public class News extends BaseEntity {
     @Column(columnDefinition = "int8[]")
     private Long[] imageIds;
 
-    @Type(LongArrayType.class)
-    @Column(columnDefinition = "text[]")
     private String videoUrls;
 
     private Boolean active = true;
