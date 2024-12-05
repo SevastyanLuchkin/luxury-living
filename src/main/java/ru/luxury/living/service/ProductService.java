@@ -1,5 +1,6 @@
 package ru.luxury.living.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.luxury.living.model.Product;
 import ru.luxury.living.repository.ProductRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +51,9 @@ public class ProductService {
             Boolean admin,
             Pageable pageable
     ) {
+        if (brandIds == null && categoryIds == null && typeId == null && !Boolean.TRUE.equals(admin)) {
+            return productRepository.findAllByActive(true, pageable);
+        }
         return productRepository.findProducts(brandIds, categoryIds, collectionIds, typeId, inStock, Boolean.TRUE.equals(admin) ? ALL : ACTIVE, pageable);
     }
 
