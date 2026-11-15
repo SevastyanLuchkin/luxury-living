@@ -30,7 +30,7 @@ public class Product extends BaseEntity {
 
     private String article;
 
-    private Integer price;
+    private Long price;
 
     private Boolean inStock = true;
 

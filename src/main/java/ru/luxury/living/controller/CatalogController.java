@@ -169,9 +169,9 @@ public class CatalogController {
         }
     }
 
-    private int getPrice(CatalogExcel row) {
+    private long getPrice(CatalogExcel row) {
         try {
-            return Integer.parseInt(row.getPrice());
+            return Long.parseLong(row.getPrice());
         } catch (NumberFormatException e) {
             return 0;
         }

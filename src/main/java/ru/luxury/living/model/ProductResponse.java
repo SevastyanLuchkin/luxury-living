@@ -11,7 +11,7 @@ public class ProductResponse {
 
     private String article;
 
-    private Integer price;
+    private Long price;
 
     private Boolean inStock;
 
